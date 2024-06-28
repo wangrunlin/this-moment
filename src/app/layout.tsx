@@ -2,12 +2,10 @@ import "./globals.css";
 
 import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
-import Link from "next/link";
 
-import { ModeToggle } from "@/components/mode-toggle";
+import { Navbar } from "@/components/navbar";
 import { Providers } from "@/components/providers";
 import { ThemeProvider } from "@/components/theme-provider";
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 const fontSans = FontSans({
@@ -39,20 +37,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <header className="top-0 flex justify-between items-center pt-8 px-8 lg:px-48 border-collapse">
-            <nav className="space-x-8">
-              <Button variant="link" asChild>
-                <Link href="/">Home</Link>
-              </Button>
-              <Button variant="link" asChild>
-                <Link href="/about">About</Link>
-              </Button>
-              <Button variant="link" asChild>
-                <Link href="/jotai">Jotai</Link>
-              </Button>
-            </nav>
-            <ModeToggle />
-          </header>
+          <Navbar />
 
           <Providers>{children}</Providers>
         </ThemeProvider>

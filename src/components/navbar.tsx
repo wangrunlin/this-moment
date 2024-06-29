@@ -24,7 +24,7 @@ const NavbarLink: {
 ];
 
 export const Navbar = () => (
-  <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-8 justify-between">
+  <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-8 lg:px-24 justify-between">
     <NavigationMenu className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
       <NavigationMenuList>
         {NavbarLink.map(({ link, label, target }) => (

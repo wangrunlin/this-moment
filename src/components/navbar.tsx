@@ -70,10 +70,7 @@ export const Navbar = () => (
         </Link>
       </Button>
       <Button variant="outline" size="icon" asChild>
-        <Link
-          href="https://github.com/wangrunlin/next-shadcn-ui-ts"
-          target="_blank"
-        >
+        <Link href="https://github.com/wangrunlin/this-moment" target="_blank">
           <Github className="h-4 w-4" />
         </Link>
       </Button>

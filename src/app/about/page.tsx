@@ -14,7 +14,7 @@ export default function About() {
 
         <Button asChild>
           <Link
-            href="https://github.com/wangrunlin/next-shadcn-ui-ts"
+            href="https://github.com/wangrunlin/this-moment"
             target="_blank"
           >
             GitHub
@@ -22,7 +22,7 @@ export default function About() {
         </Button>
 
         <Button variant="link" className="mt-8" size="lg" asChild>
-          <Link href="https://next-shadcn-ui-ts.vercel.app">Homepage</Link>
+          <Link href="https://this-moment.vercel.app">Homepage</Link>
         </Button>
       </footer>
     </main>

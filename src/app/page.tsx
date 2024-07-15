@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 import { TypographyH1 } from "@/components/typography";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -58,7 +56,7 @@ export default function Home() {
   return (
     <main className="mt-16 mx-4 md:mx-24 lg:mx-48">
       <TypographyH1 className="my-8">This Moment</TypographyH1>
-      <div className="space-y-8">
+      <div className="space-y-8 mb-8">
         {contentList.map(
           ({ avatar, nickname, date, content, imageList, videoList }) => (
             <Card key={avatar}>

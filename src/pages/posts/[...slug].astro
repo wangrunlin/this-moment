@@ -1,0 +1,24 @@
+---
+import BlogLayout from "@/layouts/BlogLayout.astro";
+import { getCollection } from "astro:content";
+
+// 1. 为每个集合条目生成一个新路径
+export async function getStaticPaths() {
+  const blogEntries = await getCollection("blog");
+  return blogEntries.map((entry: any) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+// 2. 当渲染的时候，你可以直接从属性中得到条目
+const { entry } = Astro.props as { entry: any };
+const { Content } = await entry.render();
+---
+
+<BlogLayout title={entry.data.title}>
+  <div class="mx-auto max-w-screen-md mt-8 px-4">
+    <h1 class="text-4xl font-bold my-4">{entry.data.title}</h1>
+    <Content />
+  </div>
+</BlogLayout>

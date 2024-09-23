@@ -1,0 +1,16 @@
+---
+import { EmblaCarousel } from "@/components/EmblaCarousel";
+const { post } = Astro.props;
+---
+
+<div class="mb-8 border-b pb-4">
+  <div class="flex items-center mb-2">
+    <img src={post.avatar} alt={post.author} class="w-10 h-10 rounded-full mr-3" />
+    <div>
+      <p class="font-bold">{post.author}</p>
+      <p class="text-sm text-gray-500">{post.date}</p>
+    </div>
+  </div>
+  <p class="mb-2">{post.content}</p>
+  <EmblaCarousel images={post.images} client:load />
+</div>

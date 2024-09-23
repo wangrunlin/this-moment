@@ -1,0 +1,102 @@
+---
+import { House } from "lucide-react";
+import { Link } from "@/components/ui/link";
+import { ModeToggle } from "@/components/ModeToggle";
+import { getLangFromUrl, useTranslatedPath, useTranslations } from "@/i18n/utils";
+import { LanguagePicker } from "@/components/LanguagePicker";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const translatedPath = useTranslatedPath(lang);
+
+const links = [
+  {
+    name: t("about"),
+    href: translatedPath("/about"),
+  },
+  {
+    name: t("blog"),
+    href: translatedPath("/blog"),
+  },
+  {
+    name: t("contact"),
+    href: translatedPath("/contact"),
+  },
+];
+---
+
+<nav class="p-4 bg-blue-100 dark:bg-gray-800 text-gray-800 dark:text-white">
+  <div class="container mx-auto flex justify-between items-center">
+    <div class="lg:flex lg:items-center lg:w-auto w-full">
+      <Link href={translatedPath("/")} variant="link">
+        <House />
+      </Link>
+    </div>
+
+    <!-- mobile menu button -->
+    <div class="lg:hidden">
+      <button id="mobile-menu-button">
+        <svg
+          class="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16m-7 6h7"></path>
+        </svg>
+      </button>
+    </div>
+
+    <div class="hidden lg:flex lg:items-center lg:w-auto w-full">
+      <ul class="lg:flex lg:space-x-4">
+        {
+          links.map(({ name, href }) => (
+            <li>
+              <Link href={href} variant="link">
+                {name}
+              </Link>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div class="hidden lg:flex lg:items-center lg:w-auto w-full lg:space-x-4">
+      <ModeToggle client:idle />
+      <span></span>
+      <LanguagePicker url={Astro.url} client:idle />
+    </div>
+  </div>
+</nav>
+
+<nav id="mobile-menu" class="lg:hidden hidden">
+  <ul class="bg-blue-100 dark:bg-gray-800 text-gray-800 dark:text-white space-y-2">
+    {
+      links.map(({ name, href }) => (
+        <li class="text-center">
+          <Link href={href} variant="link">
+            {name}
+          </Link>
+        </li>
+      ))
+    }
+    <div class="flex pb-4 justify-evenly">
+      <ModeToggle client:idle />
+      <LanguagePicker url={Astro.url} client:idle />
+    </div>
+  </ul>
+</nav>
+
+<script>
+  document.getElementById("mobile-menu-button")?.addEventListener("click", () => {
+    const menu = document.getElementById("mobile-menu");
+    if (menu) {
+      menu.classList.toggle("hidden");
+    }
+  });
+</script>

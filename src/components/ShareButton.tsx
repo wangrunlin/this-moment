@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ShareModal } from "@/components/ShareModal";
 import { getLangFromUrl, useTranslations } from "@/i18n/utils";
-import { posts } from "@/pages/index.astro";
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
 
 interface Props {
   url: URL;
@@ -13,18 +15,20 @@ export function ShareButton({ url }: Props) {
   const lang = getLangFromUrl(url);
   const t = useTranslations(lang);
 
-  const handleShare = (content: string, image: File | null, video: File | null) => {
+  const handleShare = async (content: string, image: File | null, video: File | null) => {
     // 这里处理分享逻辑,例如发送到服务器
     console.log("Shared:", { content, image, video });
-    posts.push({
-      author: "Leo Wang",
-      avatar: "https://github.com/wangrunlin.png",
-      date: new Date().toLocaleString("zh-CN"),
-      content,
-      images: [image?.name || ""],
+    const post = await prisma.post.create({
+      data: {
+        author: "Leo Wang",
+        avatar: "https://github.com/wangrunlin.png",
+        date: new Date().toLocaleString("zh-CN"),
+        content,
+        images: JSON.stringify([image?.name || ""]),
+      },
     });
-    console.log(posts);
-    // 在实际应用中,您需要将这些数据发送到服务器
+    console.log(post);
+    console.log("post created");
   };
 
   return (

@@ -2,9 +2,6 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ShareModal } from "@/components/ShareModal";
 import { getLangFromUrl, useTranslations } from "@/i18n/utils";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
 
 interface Props {
   url: URL;
@@ -16,19 +13,29 @@ export function ShareButton({ url }: Props) {
   const t = useTranslations(lang);
 
   const handleShare = async (content: string, image: File | null, video: File | null) => {
-    // 这里处理分享逻辑,例如发送到服务器
     console.log("Shared:", { content, image, video });
-    const post = await prisma.post.create({
-      data: {
-        author: "Leo Wang",
-        avatar: "https://github.com/wangrunlin.png",
-        date: new Date().toLocaleString("zh-CN"),
-        content,
-        images: JSON.stringify([image?.name || ""]),
-      },
-    });
-    console.log(post);
-    console.log("post created");
+
+    try {
+      const formData = new FormData();
+      formData.append("content", content);
+      if (image) formData.append("image", image);
+      if (video) formData.append("video", video);
+
+      const response = await fetch("/api/create-post", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error("发布失败");
+      }
+
+      const post = await response.json();
+      console.log(post);
+      console.log("post created");
+    } catch (error) {
+      console.error("发布错误:", error);
+    }
   };
 
   return (

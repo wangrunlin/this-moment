@@ -33,6 +33,8 @@ export function ShareButton({ url }: Props) {
       const post = await response.json();
       console.log(post);
       console.log("post created");
+      // 刷新页面
+      window.location.reload();
     } catch (error) {
       console.error("发布错误:", error);
     }

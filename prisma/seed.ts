@@ -45,7 +45,7 @@ export const posts = Array.from({ length: 10 }, () => ({
   avatar: "https://github.com/wangrunlin.png",
   date: generateRandomDate(),
   content: moments[Math.floor(Math.random() * moments.length)],
-  images: JSON.stringify(generateRandomImages(Math.floor(Math.random() * 3) + 1)),
+  images: generateRandomImages(Math.floor(Math.random() * 3) + 1),
 })).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
 async function main() {

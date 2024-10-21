@@ -16,6 +16,7 @@
     "@astrojs/react": "^3.6.2",
     "@astrojs/tailwind": "^5.1.1",
     "@aws-sdk/client-s3": "^3.658.0",
+    "@prisma/adapter-d1": "^5.20.0",
     "@prisma/client": "^5.20.0",
     "@radix-ui/react-dropdown-menu": "^2.1.1",
     "@radix-ui/react-slot": "^1.1.0",
@@ -35,11 +36,13 @@
     "typescript": "^5.6.2"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^4.20240925.0",
     "@types/node": "^22.7.0",
     "husky": "^9.1.6",
     "prettier": "^3.3.3",
     "prettier-plugin-astro": "^0.14.1",
-    "prisma": "^5.20.0"
+    "prisma": "^5.20.0",
+    "wrangler": "^3.78.9"
   },
   "prettier": {
     "semi": true,

@@ -12,5 +12,5 @@ const { post } = Astro.props;
     </div>
   </div>
   <p class="mb-2">{post.content}</p>
-  <EmblaCarousel images={JSON.parse(post.images)} client:load />
+  <EmblaCarousel images={post.images} client:load />
 </div>

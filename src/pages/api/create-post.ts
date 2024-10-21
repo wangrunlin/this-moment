@@ -36,7 +36,7 @@ export const POST: APIRoute = async ({ request }) => {
         avatar: "https://github.com/wangrunlin.png",
         date: new Date(),
         content,
-        images: JSON.stringify([imageUrl]),
+        images: [imageUrl],
       },
     });
 

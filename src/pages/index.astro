@@ -3,12 +3,10 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import PostCard from "@/components/PostCard.astro";
 import { ShareButton } from "@/components/ShareButton";
 import { getLangFromUrl, useTranslations } from "@/i18n/utils";
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/lib/prisma";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-
-const prisma = new PrismaClient();
 
 const posts = await prisma.post.findMany({
   orderBy: {

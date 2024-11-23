@@ -8,105 +8,80 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { prisma } from "@/lib/prisma";
 
-type CardType = {
-  id: string;
-  avatar?: string;
-  nickname?: string;
-  date?: string;
-  content?: string;
-  imageList?: string[];
-  videoList?: string[];
-};
+export default async function Home() {
+  const posts = await prisma.post.findMany({ orderBy: { date: "desc" } });
 
-const contentList: CardType[] = [
-  {
-    id: "1",
-    avatar: "https://github.com/wangrunlin.png",
-    nickname: "Leo Wang",
-    date: "2024/6/28 20:44:40",
-    content: "Card Content",
-    imageList: [
-      // generate 3 - 5 unsplash images link
-      "https://images.unsplash.com/photo-1711834231479-5f6d4556d6f3",
-      "https://plus.unsplash.com/premium_photo-1701094772268-842fcc7ce510?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8fA%3D%3D",
-      "https://images.unsplash.com/photo-1712009508464-8a41723abf63?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MTR8fHxlbnwwfHx8fHw%3D",
-    ],
-    videoList: [""],
-  },
-  {
-    id: "2",
-    avatar: "https://github.com/wangrunlin.png",
-    nickname: "阿林",
-    date: "2024/6/28 20:58:40",
-    content: "Card Content 2",
-    imageList: [
-      // generate 3 - 5 unsplash images link
-      "https://images.unsplash.com/photo-1719420062178-8675f842252a?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90b3MtZmVlZHwyM3x8fGVufDB8fHx8fA%3D%3D",
-      "https://plus.unsplash.com/premium_photo-1718169684197-adf733b5c7ef?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90b3MtZmVlZHwyMXx8fGVufDB8fHx8fA%3D%3D",
-      "https://images.unsplash.com/photo-1711834231479-5f6d4556d6f3",
-      // "https://plus.unsplash.com/premium_photo-1701094772268-842fcc7ce510?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8fA%3D%3D",
-      // "https://images.unsplash.com/photo-1712009508464-8a41723abf63?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MTR8fHxlbnwwfHx8fHw%3D",
-    ],
-    videoList: [""],
-  },
-];
-
-export default function Home() {
   return (
     <main className="mt-16 mx-4 md:mx-24 lg:mx-48">
       <TypographyH1 className="my-8">This Moment</TypographyH1>
-      <div className="space-y-8 mb-8">
-        {contentList.map(
-          ({ avatar, nickname, date, content, imageList, videoList }) => (
-            <Card key={avatar}>
-              <CardHeader>
-                <CardTitle className="flex items-center space-x-2">
-                  <Avatar>
-                    <AvatarImage src={avatar} />
-                    <AvatarFallback>
-                      {nickname?.at(-1)?.toUpperCase()}
-                      {/* todo)) 更新为英文名称缩写或者中文最后一个字 */}
-                    </AvatarFallback>
-                  </Avatar>
-                  <span className="text-xl text-muted-foreground">
-                    {nickname}
-                  </span>
-                </CardTitle>
-                <CardDescription>
-                  {new Date(date || "").toLocaleString("zh-CN")}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>{content}</CardContent>
-              <CardFooter className="flex-col items-start">
-                {imageList?.length &&
-                  (imageList.length > 2 ? (
-                    <div className="flex space-x-4 ms-0">
-                      {imageList.map((image) => (
-                        <div key={image} className="">
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img
-                            src={image}
-                            alt="#"
-                            className="object-cover max-h-96"
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <div>
-                      {imageList.map((image) => (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img key={image} src={image} alt="#" />
-                      ))}
+      <div className="space-y-6 mb-4">
+        {posts.map(({ id, avatar, nickname, date, content, imageList }) => (
+          <Card
+            key={id}
+            className="hover:shadow-lg transition-shadow duration-200"
+          >
+            <CardHeader>
+              <CardTitle className="flex items-center space-x-3">
+                <Avatar className="h-12 w-12">
+                  <AvatarImage src={avatar} />
+                  <AvatarFallback>
+                    {/^[A-Za-z]/.test(nickname || "")
+                      ? nickname
+                          ?.split(" ")
+                          .map((n) => n[0])
+                          .join("")
+                          .toUpperCase()
+                      : nickname?.slice(-1)}
+                  </AvatarFallback>
+                </Avatar>
+                <span className="text-xl font-medium">{nickname}</span>
+              </CardTitle>
+              <CardDescription className="mt-1 text-sm">
+                {new Date(date || "").toLocaleString("zh-CN", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <p className="whitespace-pre-wrap text-base">{content}</p>
+            </CardContent>
+            <CardFooter className="flex-col items-start">
+              {imageList?.length ? (
+                <div
+                  className={`grid gap-2 w-full ${
+                    imageList.length === 1
+                      ? "grid-cols-1"
+                      : imageList.length === 2
+                      ? "grid-cols-2"
+                      : imageList.length === 3
+                      ? "grid-cols-3"
+                      : "grid-cols-2 md:grid-cols-4"
+                  }`}
+                >
+                  {imageList.map((image) => (
+                    <div
+                      key={image}
+                      className="relative aspect-square overflow-hidden rounded-lg"
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={image}
+                        alt="Moment image"
+                        className="object-cover w-full h-full hover:scale-105 transition-transform duration-200"
+                      />
                     </div>
                   ))}
-                {/* image list */}
-                {/* link card list */}
-              </CardFooter>
-            </Card>
-          )
-        )}
+                </div>
+              ) : null}
+            </CardFooter>
+          </Card>
+        ))}
       </div>
     </main>
   );

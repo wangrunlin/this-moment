@@ -1,4 +1,4 @@
-import { Clock, Github, MenuIcon, Timer, Twitter } from "lucide-react";
+import { Github, MenuIcon, Twitter } from "lucide-react";
 import Link from "next/link";
 import { HTMLAttributeAnchorTarget, ReactNode } from "react";
 
@@ -19,6 +19,7 @@ const NavbarLink: {
   target?: HTMLAttributeAnchorTarget;
 }[] = [
   { link: "/", label: "Home" },
+  { link: "/explore", label: "Explore" },
   { link: "/about", label: "about" },
   { link: "/jotai", label: "Jotai" },
 ];
